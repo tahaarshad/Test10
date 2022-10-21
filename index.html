@@ -30,7 +30,9 @@
         <p v-html="product.description"></p>
         <p>Price: {{product.price}}</p>
         <!--shorthand for v-on is @ so it will be @click,,,,this is v-on for DOM binding-->
-        <button v-on:click="addToCart">Add to Cart</button>
+        <button v-on:click="addToCart"
+        v-if="canAddToCart">Add to Cart</button>
+        <button disabled='disabled' v-else>Add to cart</button>
     </main>
     </div>
     <script>
@@ -44,6 +46,7 @@
                     description: "A 25 pound bag of <em>irresistable<\em>" + " organic goodness for your cat.",
                     price: 2000,
                     image: "images/Petfood.jpg",
+                    availableInventory: 5,
                 },
                 cart: [],
             },
@@ -57,9 +60,9 @@
                  cartItemCount: function(){
                     return this.cart.length || ''
                  },
-                //  canAddToCart: function(){
-                //     return this.lessons.Space > this.cartItemCount;
-                //  }
+                 canAddToCart: function(){
+                    return this.product.availableInventory > this.cartItemCount;
+                 }
                 }
 
         });
