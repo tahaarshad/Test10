@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js Pet Depot</title>
+    <!--Load vue from server so no local file is required-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <link rel="stylesheet" type="text/css" href=""/>
+    <link rel="stylesheet" href=""/>
+</head>
+<body>
+    <div id="app">
+        <header>
+        <h1 v-text="sitename"></h1>
+    </header>
+
+    <main>
+        <figure>
+            <img v-bind:src="product.image">
+        </figure>
+        <h2 v-text="product.title"></h2>
+        <p v-html="product.description"></p>
+        <p>Price: {{product.price}}</p>
+        <!--shorthand for v-on is @ so it will be @click,,,,this is v-on for DOM binding-->
+        <button v-on:click="addToCart">Add to Cart</button>
+    </main>
+    </div>
+    <script>
+        let webstore = new Vue ({
+            el: '#app',
+            data: {
+                sitename: 'Vue.js Pet Depot',
+                product: {
+                    id: 100,
+                    title: "Cat Food, 25lb bag",
+                    description: "A 25 pound bag of <em>irresistable<\em>" + " organic goodness for your cat.",
+                    price: 2000,
+                    image: "images/Petfood.jpg",
+                },
+                cart: [],
+            },
+            methods: {
+                addToCart: function() {
+                    this.cart.push(this.product.id);
+                    console.log(this.cart);
+                }
+            }
+
+        });
+    </script>
+    
+</body>
+</html>
