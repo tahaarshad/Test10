@@ -7,6 +7,7 @@
     <title>Vue.js Pet Depot</title>
     <!--Load vue from server so no local file is required-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://kit.fontawesome.com/e62066c739.js" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href=""/>
     <link rel="stylesheet" href=""/>
@@ -15,6 +16,10 @@
     <div id="app">
         <header>
         <h1 v-text="sitename"></h1>
+        <button>
+            {{cartItemCount}}
+            <span class="fas fa-cart-plus"></span>Checkout
+        </button>
     </header>
 
     <main>
@@ -47,7 +52,15 @@
                     this.cart.push(this.product.id);
                     console.log(this.cart);
                 }
-            }
+            },
+            computed: {
+                 cartItemCount: function(){
+                    return this.cart.length || ''
+                 },
+                //  canAddToCart: function(){
+                //     return this.lessons.Space > this.cartItemCount;
+                //  }
+                }
 
         });
     </script>
