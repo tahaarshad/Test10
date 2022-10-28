@@ -23,6 +23,7 @@
     </header>
 
     <main>
+        <div v-if="showProduct">
         <figure>
             <img v-bind:src="product.image">
         </figure>
@@ -33,7 +34,15 @@
         <button v-on:click="addToCart"
         v-if="canAddToCart">Add to Cart</button>
         <button disabled='disabled' v-else>Add to cart</button>
+    </div>
+
+        <div v-else>
+            <h2>Checkout</h2>
+        </div>
     </main>
+        </div>
+
+        
     </div>
     <script>
         let webstore = new Vue ({
