@@ -16,7 +16,7 @@
     <div id="app">
         <header>
         <h1 v-text="sitename"></h1>
-        <button>
+        <button v-on:click="showCheckout">
             {{cartItemCount}}
             <span class="fas fa-cart-plus"></span>Checkout
         </button>
@@ -49,12 +49,16 @@
                     availableInventory: 5,
                 },
                 cart: [],
+                showProduct: true,
             },
             methods: {
                 addToCart: function() {
                     this.cart.push(this.product.id);
                     console.log(this.cart);
-                }
+                },
+                showCheckout() {
+                    this.showProduct = this.showProduct ? false : true; 
+                },
             },
             computed: {
                  cartItemCount: function(){
