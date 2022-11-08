@@ -7,7 +7,8 @@
     <title>Vue.js Pet Depot</title>
     <!--Load vue from server so no local file is required-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://kit.fontawesome.com/e62066c739.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a034fe5f30.js" crossorigin="anonymous"></script>
+    <script src="products.js"></script>
 
     <link rel="stylesheet" type="text/css" href=""/>
     <link rel="stylesheet" href=""/>
@@ -24,6 +25,7 @@
 
     <main>
         <div v-if="showProduct">
+            <div v-for="product in products">
         <figure>
             <img v-bind:src="product.image">
         </figure>
@@ -32,8 +34,21 @@
         <p>Price: {{product.price}}</p>
         <!--shorthand for v-on is @ so it will be @click,,,,this is v-on for DOM binding-->
         <button v-on:click="addToCart"
-        v-if="canAddToCart">Add to Cart</button>
+        v-if="canAddToCart(product)">Add to Cart</button>
         <button disabled='disabled' v-else>Add to cart</button>
+        <span v-if="product.availableInventory === cartItemCount < 5">
+            All out!
+        </span>
+        <span v-else-if="product.availableInventory - cartCount(product.id)">
+            Only {{product.availableInventory - cartCount(product.id)}} left!
+        </span>
+        <span v-else>Buy Now!</span>
+
+        <div>
+            <span v-for="n in product.rating"><i class="fa-solid fa-star"></i></span>
+            <span v-for="n in 5-product.rating"><i class="fa-regular fa-star"></i></span>
+        </div>
+        </div>
     </div>
 
         <div v-else>
@@ -116,14 +131,7 @@
             el: '#app',
             data: {
                 sitename: 'Vue.js Pet Depot',
-                product: {
-                    id: 100,
-                    title: "Cat Food, 25lb bag",
-                    description: "A 25 pound bag of <em>irresistable<\em>" + " organic goodness for your cat.",
-                    price: 2000,
-                    image: "images/Petfood.jpg",
-                    availableInventory: 5,
-                },
+                products: products,
                 cart: [],
                 showProduct: true,
                 order: {
@@ -146,8 +154,8 @@
                 
             },
             methods: {
-                addToCart: function() {
-                    this.cart.push(this.product.id);
+                addToCart: function(product) {
+                    this.cart.push(product.id);
                     console.log(this.cart);
                 },
                 showCheckout() {
@@ -155,6 +163,18 @@
                 },
                 submitForm() {
                     alert("Order Subitted!")
+                },
+                canAddToCart(product) {
+                    return product.availableInventory > this.cartCount(product.id);
+                },
+                cartCount(id) {
+                    let count = 0;
+                    for (let i = 0; i < this.cart.length; i++) {
+                        if (this.cart[i] === id) {
+                            count++
+                        }
+                    }
+                    return count
                 }
             },
             computed: {
